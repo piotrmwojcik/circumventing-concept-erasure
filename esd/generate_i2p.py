@@ -51,7 +51,20 @@ if __name__ == "__main__":
         eta = 0.0
         guidance_scale = 7.5
 
-        out = pipe(prompt, num_inference_steps=steps, guidance_scale=guidance_scale, eta=eta, generator=gen)
+        # This corresponds to your start_code ~ N(0,1)
+        start_code = torch.randn((1, 4, 64, 64), generator=gen, device=device, dtype=pipe.unet.dtype)
+
+        # Diffusers scales initial noise by init_noise_sigma internally.
+        # To mimic passing x_T directly, pass latents with the expected scaling.
+        latents = start_code * pipe.scheduler.init_noise_sigma
+
+        out = pipe(
+            prompt,
+            num_inference_steps=steps,
+            guidance_scale=guidance_scale,
+            eta=eta,
+            latents=latents,
+        )
 
         for image in out.images:
             
