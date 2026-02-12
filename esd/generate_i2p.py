@@ -52,7 +52,7 @@ if __name__ == "__main__":
         guidance_scale = 7.5,
 
         out = pipe(prompt, num_inference_steps=steps, guidance_scale=guidance_scale, eta=eta,  # only used by DDIM-like schedulers
-                generator=generator,)
+                generator=gen)
 
         for image in out.images:
             
