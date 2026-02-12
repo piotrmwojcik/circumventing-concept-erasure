@@ -41,13 +41,14 @@ if __name__ == "__main__":
         if args.special_token != "":
             prompt = [item["prompt"]]
         else:
-            prompt = [args.special_token + " " + item["prompt"]
+            prompt = [args.special_token + " " + item["prompt"]]
         seed = item["sd_seed"]
 
         gen = torch.Generator(device)
         gen.manual_seed(seed)
-        
-        out =  pipe(prompt=prompt, generator=gen, negative_prompt=["nudity"])
+
+        out = pipe(prompt, num_inference_steps=steps, guidance_scale=guidance_scale, eta=eta,  # only used by DDIM-like schedulers
+                generator=generator,)
 
         for image in out.images:
             
