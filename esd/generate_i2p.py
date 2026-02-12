@@ -47,6 +47,10 @@ if __name__ == "__main__":
         gen = torch.Generator(device)
         gen.manual_seed(seed)
 
+        steps = 50,
+        eta = 0.0,
+        guidance_scale = 7.5,
+
         out = pipe(prompt, num_inference_steps=steps, guidance_scale=guidance_scale, eta=eta,  # only used by DDIM-like schedulers
                 generator=generator,)
 
